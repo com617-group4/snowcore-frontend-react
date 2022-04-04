@@ -1,0 +1,40 @@
+{
+    "Courchevel":{
+        "id":0,
+        "lat": 45.4147,
+        "lon": 6.6347,
+        "WorkingHrs":""
+    },
+    "Meribel":{
+        "id":1,
+        "lat": 45.3967,
+        "id":2,
+        "lat": 45.4524,
+        "lon": 6.5664,
+        "WorkingHrs":""
+    },
+    "St-Martin-de-Belleville":{
+        "id":3,
+        "lat": 45.3804,
+        "lon": 6.5041,
+        "WorkingHrs":""
+    },
+    "Les Menuires":{
+        "id":4,
+        "lat": 45.3242,
+        "lon": 6.5378,
+        "WorkingHrs":""
+    },
+    "Val Thorens":{
+        "id":5,
+        "lat": 45.2983,
+        "lon": 6.5823,
+        "WorkingHrs":""
+    },
+    "Orelle":{
+        "id":6,
+        "lat": 45.2100,
+        "lon": 6.5341,
+        "WorkingHrs":""
+    }
+}
