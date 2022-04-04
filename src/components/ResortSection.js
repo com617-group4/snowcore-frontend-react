@@ -6,7 +6,7 @@ function ResortSection(props) {
 
   const listItems = resorts.map((d) => <li className="self-center" key={d.name}>
 
-    <div className="bg-blue-300 self-center h-fit w-4/5 m-9 p-4">
+    <div className="bg-blue-300 self-center h-fit  m-9 p-4">
       <div className="first_row flex justify-around mb-3 bg-black text-white">
         <div className="bg-white">
           <h3 className="font-bold text-black">{d.name}</h3>
