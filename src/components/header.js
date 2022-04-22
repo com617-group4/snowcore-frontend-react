@@ -4,6 +4,8 @@ import ResortSection from './ResortSection';
 import Map from './map.js'
 import UserSection from './userSection';
 import axios from 'axios';
+import { render } from 'react-dom';
+import reactDom from 'react-dom';
 //CHANGE ASAP
 const token="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InN0c2hrQGFidi5iZyIsImlhdCI6MTY0OTA2NzQ1MSwiZXhwIjoxNjQ5MDk2MjUxfQ.JJQ4--jlR53sUILx2HDiQeFZdm3JJ07PZ1Si7mYk4qg";
 const apiurl="http://localhost:8070";
@@ -52,40 +54,65 @@ function openMap(){
   }
 
   function openHome(resortsResponse){
-    var rendered="";
-
+    var res=Array();
+    var toRender = "";
     resortsResponse.then((resorts) => {
       resorts.data.map(async (resort) => 
       {
-       console.log(resort);
-       rendered+=`<div className="flex flex-col h-4/5 ">       <h2 className="self-center">Resorts in the Three Valleys area:</h2>       <ResortSectionresortName=${resort.properties.name}temperature="15"  snow="0"      recommendations="100"      workingHrs="10-5"       />       </div>`
-
+      
+        
+        console.log(resort.name)
+       ReactDOM.render(
+          <ResortSection
+          resortsParsed={resort}
+          ></ResortSection>
+         , document.getElementById("response"))
+         
       });
-      return rendered
-    }).then((rendered) => {
-    console.log(rendered);
-     ReactDOM.render(
-      rendered
-      , document.getElementById("response")
-    );
-     })
-  }
+    });
+  
+   }
+  
 function Header(){
   const [resorts,setResorts]=useState([]);
   const [requestError,setRequestError]=useState();
 
   const fetchResorts=useCallback(async()=>{
-
+   
 
     try{
-        const res=await authAxios.get(`/resort`);
-         // console.log(resorts.data);
-          return res;
+      
+        const res=await authAxios.get(`http://localhost:8070/resort/`).then((resortsret) => {
+        
+            setResorts(resortsret.data);         
+            return resortsret.data
+
+        }).then((resortsretdata)=>{
+          console.log(resortsretdata);
+          ReactDOM.render(<div className="container mt-6 flex-col gap-4">
+            {resortsretdata.map(( i) => {     
+              return (<ResortSection
+                key={i._id}
+                resortName={i.name}
+                temperature={i.weather.temp}
+                snow={0}
+                recommendations={i.favourites}
+                workingHrs="15000"
+              ></ResortSection>);
+            })
+          }</div>,document.getElementById("response"))
+        })
+          
+           
+      
+    
+        return res;
           
           // expected output: "Success!"
         
         
     }
+    
     catch(e){
       setRequestError(e.message);
     }
@@ -102,7 +129,7 @@ function Header(){
           <path d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10zm0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6z"/>
           </svg>
         </button>
-        <button onClick={function(){  openHome(fetchResorts())}} className= "rounded-full bg-white   mt-1 flex justify-center">
+        <button onClick={function(){  fetchResorts()}} className= "rounded-full bg-white   mt-1 flex justify-center">
           <svg xmlns="http://www.w3.org/2000/svg" className="mt-2" width="35px" height="35px"  viewBox="0 0 16 16">
           <path d="M6.5 14.5v-3.505c0-.245.25-.495.5-.495h2c.25 0 .5.25.5.5v3.5a.5.5 0 0 0 .5.5h4a.5.5 0 0 0 .5-.5v-7a.5.5 0 0 0-.146-.354L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293L8.354 1.146a.5.5 0 0 0-.708 0l-6 6A.5.5 0 0 0 1.5 7.5v7a.5.5 0 0 0 .5.5h4a.5.5 0 0 0 .5-.5z"/>
           </svg>
