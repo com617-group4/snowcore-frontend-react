@@ -27,30 +27,38 @@ const authAxios=axios.create({
 })
 
 
-function openMap(){
+function openMap(resorts){
     ReactDOM.render(
         <Map
-        lat="45.4841"
-        lon="6.5256"
+       resorts={resorts}
         />
     , document.getElementById("response"))
 }
   
-  function openUser(){
-    ReactDOM.render(
+  function openUser(resort){
+    ReactDOM.render( <div className="flex flex-col h-4/5 ">
+           <UserSection></UserSection>
+
+    {resort.map(( i) => {  
+      
+      return (<ResortSection
+       resort={i}
+      ></ResortSection>);
+    })
+  }</div>,document.getElementById("response"))
+
+
+   /* ReactDOM.render(
+      
       <div className="flex flex-col h-4/5 ">
 
      <UserSection></UserSection>
      
        <ResortSection
-        resortName="Resort 1"
-        temperature="15"
-        snow="0"
-        recommendations="100"
-        workingHrs="10-5"
+        resorts={resorts}
         />
      </div>
-      , document.getElementById("response"));
+      , document.getElementById("response"));*/
   }
 
   function openHome(resortsResponse){
@@ -88,23 +96,16 @@ function Header(){
             return resortsret.data
 
         }).then((resortsretdata)=>{
-          console.log(resortsretdata);
           ReactDOM.render(<div className="container mt-6 flex-col gap-4">
             {resortsretdata.map(( i) => {     
               return (<ResortSection
-                key={i._id}
-                resortName={i.name}
-                temperature={i.weather.temp}
-                snow={0}
-                recommendations={i.favourites}
-                workingHrs="15000"
+               resort={i}
               ></ResortSection>);
             })
           }</div>,document.getElementById("response"))
         })
           
-           
-      
+          
     
         return res;
           
@@ -124,7 +125,7 @@ function Header(){
     <div id="wrapper">
   <div className=" px-4 pb-1 w-full flex justify-between bg-blue-300 h-16 text-3xl">
         <div className="mt-2"><h1 >SNOWCORE</h1></div>
-        <button onClick={openMap} className="rounded-full flex justify-center  bg-white h-14 w-14 mt-1">
+        <button onClick={function(){  openMap(resorts)}} className="rounded-full flex justify-center  bg-white h-14 w-14 mt-1">
           <svg xmlns="http://www.w3.org/2000/svg" className="mt-2" width="35px" height="35px"  viewBox="0 0 16 16">
           <path d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10zm0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6z"/>
           </svg>
@@ -135,7 +136,7 @@ function Header(){
           </svg>
         </button>
        
-        <button onClick={openUser} className="rounded-full mt-1 bg-white ">
+        <button onClick={function(){  openUser(resorts)}} className="rounded-full mt-1 bg-white ">
             <svg xmlns="http://www.w3.org/2000/svg" width="55px" height="55px" fill="currentColor"  viewBox="0 0 16 16">
           <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
           </svg>
